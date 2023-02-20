@@ -1,0 +1,122 @@
+{% extends 'userprofile/user_base.html' %}
+{% block body %}
+{% block dashboard %}
+
+
+<div class="container-fluid">
+  <div class="row">
+    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+      <div class="position-sticky pt-3 sidebar-sticky">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'dashboard' %}">
+              <span data-feather="home" class="align-text-bottom"></span>
+              Dashboard
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="{% url 'addblog' %}">
+              <span data-feather="home" class="align-text-bottom"></span>
+              Add Blog
+            </a>
+          </li>
+          {% for cat in categories %}
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="{% url 'usercategory' cat.slug %}">
+              <span data-feather="home" class="align-text-bottom"></span>
+              {{cat.title}}
+            </a>
+          </li>
+          {% endfor %}
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="{% url 'profile' %}">
+              <span data-feather="home" class="align-text-bottom"></span>
+              Profile
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="{% url 'home' %}">
+              <span data-feather="home" class="align-text-bottom"></span>
+              Back on Website
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+          <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        {% if not request.user == profile_name.username %}
+        {% for p in profile_name %}
+        <h1 class="h2">{{p.profile_name | upper}} Dashboard</h1>
+        {% empty %}
+        <h1 class="h2">{{request.user | upper}} Dashboard</h1>
+        {% endfor %}
+        {% else %}
+        <h1 class="h2">{{request.user | upper}} Dashboard</h1>
+        {% endif %}
+        <div class="btn-toolbar mb-2 mb-md-0">
+          <div class="btn-group me-2">
+            <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+          </div>
+          <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+            <span data-feather="calendar" class="align-text-bottom"></span>
+            This week
+          </button>
+        </div>
+      </div>
+
+
+      <!--  showing posts  -->
+        <h1 class="text-center" >Blog Details</h1>
+      <div class="card my-5" style="width: 100%;">
+      <img src="/media/{{post.image}}" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">{{post.title}}</h5>
+            <small class="card-text">Last update: <span class="text-primary">{{post.created_at}}</span></small>
+            <br>
+            <small class="card-text">Updated by - <span class="text-danger">{{post.creator}}</span></small>
+            <p class="card-text">{{post.description | safe}}</p>
+          <button class="btn btn-danger w-100 mb-5" data-bs-toggle="modal"
+             data-bs-target="#takeactions">Take
+            Action</button>
+        </div>
+
+
+                <!-- Modal -->
+<div class="modal fade" id="takeactions" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Take Quick Actions</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body fw-light">
+        Want to Edit or Delete this blog?
+      </div>
+      <div class="modal-footer">
+        <a href="{% url 'update_blog' post.slug %}" class="btn btn-info">Edit
+        </a>
+        <a href="{% url 'deleteBlog' post.slug %}" class="btn btn-danger">Delete</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+      </div>
+    </main>
+  </div>
+</div>
+
+
+
+
+
+{% endblock %}
+{% endblock %}

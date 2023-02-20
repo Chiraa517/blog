@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block body %}
+{% block post %}
+
+
+
+    <section class="blog-posts grid-system">
+      <div class="container">
+        <h1 class="mb-5 text-center">BLOG POST</h1>
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="all-blog-posts">
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="blog-post">
+                    <div class="blog-thumb">
+                      <img src="/media/{{post.image}}" alt="">
+                    </div>
+                    <div class="mt-3 mb-5">
+                      <span>{{post.category.title}}</span> <br>
+                      <small class="text-danger">Created by - {{post.creator}}</small>
+                      <a href="post-details.html"><h4 class="h2 text-dark">{{post.title}}</h4></a>
+                      <ul class="post-info">
+                        <li><a href="#" class="link-secondary">{{post.created_at}}</a></li>
+                      </ul>
+                      <p>{{post.description | safe}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </section>
+{% endblock %}
+{% endblock %}
+

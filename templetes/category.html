@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% block body %}
+{% block category %}
+
+<section class="blog-posts">
+      <div class="container">
+        <h1 class="mb-5 text-center">BLOG POSTS</h1>
+        <div class="row">
+
+          <div class="col-lg-8">
+            <div class="all-blog-posts">
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="blog-post p-5"
+                       style="border-bottom:1px solid lightgray; border-right:1px solid lightgray; border-left:1px solid lightgray; border-top:1px solid lightgray;">
+                    {% for posts in post %}
+                      <div class="blog-thumb mt-5">
+                          <a href="{% url 'seepost' %}?post_slug={{posts.slug}}">
+                              <img src="/media/{{posts.image}}" alt="">
+                          </a>
+                      </div>
+                    <div class="mt-3 mb-5">
+                      <span class="text-primary">{{posts.category.title}}</span>
+                      <a href="post-details.html"><h4 class="h2 text-dark">{{posts.title}}</h4></a>
+                        <ul class="post-info">
+                        <li><a href="#" class="link-secondary">{{posts.created_at}}</a></li>
+                      </ul>
+                      <p class="p-1 text-dark" >{{posts.description | truncatewords:50 | safe}}
+                          <a rel="nofollow" href="{% url 'seepost' %}?post_slug={{posts.slug}}" class="link-danger"
+                          >Readmore</a>
+                      </p>
+                    </div>
+                      {% empty %}
+                      <h1>EMPTY</h1>
+                    {% endfor %}
+                  </div>
+                </div>
+                 </div>
+             </div>
+           </div>
+        </div>
+      </div>
+    </section>
+
+
+
+
+{% endblock %}
+{% endblock %}

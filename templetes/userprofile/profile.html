@@ -1,0 +1,104 @@
+{% extends 'userprofile/user_base.html' %}
+{% block body %}
+{% block dashboard %}
+
+
+<div class="container-fluid">
+  <div class="row">
+    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+      <div class="position-sticky pt-3 sidebar-sticky">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{% url 'dashboard' %}">
+              <span data-feather="home" class="align-text-bottom"></span>
+              Dashboard
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="{% url 'addblog' %}">
+              <span data-feather="home" class="align-text-bottom"></span>
+              Add Blog
+            </a>
+          </li>
+          {% for cat in categories %}
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="{% url 'usercategory' cat.slug %}">
+              <span data-feather="home" class="align-text-bottom"></span>
+              {{cat.title}}
+            </a>
+          </li>
+          {% endfor %}
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="{% url 'profile' %}">
+              <span data-feather="home" class="align-text-bottom"></span>
+              Profile
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="{% url 'home' %}">
+              <span data-feather="home" class="align-text-bottom"></span>
+              Back on Website
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        {% if not request.user == profile_name.username %}
+        {% for p in profile_name %}
+        <h1 class="h2">{{p.profile_name | upper}} Dashboard</h1>
+        {% empty %}
+        <h1 class="h2">{{request.user | upper}} Dashboard</h1>
+        {% endfor %}
+        {% else %}
+        <h1 class="h2">{{request.user | upper}} Dashboard</h1>
+        {% endif %}
+        <div class="btn-toolbar mb-2 mb-md-0">
+          <div class="btn-group me-2">
+            <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+          </div>
+          <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+            <span data-feather="calendar" class="align-text-bottom"></span>
+            This week
+          </button>
+        </div>
+      </div>
+
+
+
+
+
+        {% for message in messages %}
+      <div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+      {{message}}
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+      {% endfor %}
+
+
+<div class="container my-5">
+  <h1>Change Profile Name</h1>
+  <form action="profile" method="POST">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label for="profile_name" class="form-label">Enter Profile Name</label>
+      <input type="text" id="profile_name" name="profile_name" class="form-control"
+             placeholder="Enter new profile name">
+    </div>
+    <div class="mb-3">
+      <input type="hidden" id="profile_username" name="profile_username" class="form-control"
+             value="{{request.user}}">
+    </div>
+
+    <div>
+      <button type="submit" class="btn btn-success w-100">Submit</button>
+    </div>
+  </form>
+</div>
+</div>
+</main>
+{% endblock %}
+{% endblock %}
