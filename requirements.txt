@@ -1,0 +1,4 @@
+django
+django-material-admin
+django-autoslug
+pillow
