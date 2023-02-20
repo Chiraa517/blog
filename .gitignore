@@ -37,6 +37,7 @@ media
 .idea/**/libraries
 .idea
 .idea/
+README.md
 
 # File-based project format
 *.iws
